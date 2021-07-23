@@ -3,11 +3,11 @@ let containerEl = document.getElementById('container');
 let containerForm = document.getElementById ('container-form');
 let containerTable = document.getElementById ('container-table');
 let tableEl = document.createElement('table');
-let resContainer =document.getElementById('result');
 
 
 let totalPrice=0;
 let books = [];
+let trEl;
 
 function book (bName, nPage, cCategory) {
 this.bName = bName;
@@ -38,6 +38,9 @@ function createTableHeader() {
     tableEl.appendChild(trEl);
     
     
+    let mm = document.createElement('th');
+    mm.textContent = "icon";
+    trEl.appendChild(mm);
 
     let thBookNameEl = document.createElement('th');
     thBookNameEl.textContent = "Book Name";
@@ -62,21 +65,32 @@ function createTableHeader() {
     thTotalEl.textContent = "Total coast";
     trEl.appendChild(thTotalEl);
     
+
+
+
     tableEl.appendChild(trEl);
     // containerTable.appendChild(tableEl);
 
 };
 
+let count=0;
 
 book.prototype.render=function(){
     totalPrice+=this.randomPrMS;
 
     let trEl = document.createElement('tr');
-    
+
+      
+     let tdEl = document.createElement('td');
+     let aEl = document.createElement('a');
+     aEl.innerHTML = `<ion-icon id=${count} name="close-circle-outline"></ion-icon>`;
+     tdEl.addEventListener('click',removCart);
+     tdEl.appendChild(aEl);
+    trEl.appendChild(tdEl)
     let tdEl1 = document.createElement('td');
     tdEl1.textContent = this.bName;
     trEl.appendChild(tdEl1);
-    
+    count++;
     let tdEl2 = document.createElement('td');
     tdEl2.textContent = this.nPage;
     trEl.appendChild(tdEl2);
@@ -96,8 +110,9 @@ book.prototype.render=function(){
     let tdEl5 = document.createElement('td');
     tdEl5.textContent =this.totalCos;
     trEl.appendChild(tdEl5);
-
     
+
+
     tableEl.appendChild(trEl);
     containerTable.appendChild(tableEl);
 
@@ -131,7 +146,7 @@ function saveTolocalStorage (){
 }
 
 function readFromLocalStorage (){
-
+    
     let stringObj=localStorage.getItem('boook');
     let normalObj=JSON.parse(stringObj);
    let bkNew=normalObj;
@@ -143,3 +158,5 @@ function readFromLocalStorage (){
     }
 }
 readFromLocalStorage ();
+
+  
