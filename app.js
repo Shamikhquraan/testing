@@ -4,7 +4,6 @@ let containerForm = document.getElementById ('container-form');
 let containerTable = document.getElementById ('container-table');
 let tableEl = document.createElement('table');
 
-
 let totalPrice=0;
 let books = [];
 let trEl;
@@ -84,7 +83,6 @@ book.prototype.render=function(){
      let tdEl = document.createElement('td');
      let aEl = document.createElement('a');
      aEl.innerHTML = `<ion-icon id=${count} name="close-circle-outline"></ion-icon>`;
-     tdEl.addEventListener('click',removCart);
      tdEl.appendChild(aEl);
     trEl.appendChild(tdEl)
     let tdEl1 = document.createElement('td');
@@ -116,6 +114,7 @@ book.prototype.render=function(){
     tableEl.appendChild(trEl);
     containerTable.appendChild(tableEl);
 
+    return this;
     
     }
 
@@ -137,7 +136,6 @@ newBook.render();
 
 }
 
-
 function saveTolocalStorage (){
 
     let saveLocal =JSON.stringify(books);
@@ -158,5 +156,14 @@ function readFromLocalStorage (){
     }
 }
 readFromLocalStorage ();
+let secForm=document.getElementById('secForm');
 
-  
+secForm.addEventListener('submit',clearLocal);
+
+function clearLocal(event){
+    // event.preventDefault();
+
+localStorage.clear();
+book.prototype.render();
+}
+
