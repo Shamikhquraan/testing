@@ -3,10 +3,11 @@ let containerEl = document.getElementById('container');
 let containerForm = document.getElementById ('container-form');
 let containerTable = document.getElementById ('container-table');
 let tableEl = document.createElement('table');
+let secForm=document.getElementById('secForm');
+
 
 let totalPrice=0;
 let books = [];
-let trEl;
 
 function book (bName, nPage, cCategory) {
 this.bName = bName;
@@ -15,6 +16,7 @@ this.cCategory = cCategory;
 this.randomPrMS =this.random();
 this.totalCos=totalPrice+this.randomPrMS;
 books.push(this);
+
 saveTolocalStorage();
 };
 
@@ -75,16 +77,13 @@ function createTableHeader() {
 let count=0;
 
 book.prototype.render=function(){
-    totalPrice+=this.randomPrMS;
-
     let trEl = document.createElement('tr');
-
-      
-     let tdEl = document.createElement('td');
+    let tdEl = document.createElement('td');
      let aEl = document.createElement('a');
      aEl.innerHTML = `<ion-icon id=${count} name="close-circle-outline"></ion-icon>`;
+     aEl.addEventListener('click' , clerRow);
      tdEl.appendChild(aEl);
-    trEl.appendChild(tdEl)
+    trEl.appendChild(tdEl);
     let tdEl1 = document.createElement('td');
     tdEl1.textContent = this.bName;
     trEl.appendChild(tdEl1);
@@ -113,10 +112,8 @@ book.prototype.render=function(){
 
     tableEl.appendChild(trEl);
     containerTable.appendChild(tableEl);
-
-    return this;
     
-    }
+    };
 
 // =================================Form==============
 createTableHeader();
@@ -139,9 +136,10 @@ newBook.render();
 function saveTolocalStorage (){
 
     let saveLocal =JSON.stringify(books);
-    localStorage.setItem('boook',saveLocal)
+    localStorage.setItem('boook',saveLocal);
 
 }
+
 
 function readFromLocalStorage (){
     
@@ -154,16 +152,24 @@ function readFromLocalStorage (){
 
       }
     }
-}
-readFromLocalStorage ();
-let secForm=document.getElementById('secForm');
+};
+
+
 
 secForm.addEventListener('submit',clearLocal);
-
 function clearLocal(event){
-    // event.preventDefault();
-
 localStorage.clear();
-book.prototype.render();
-}
+};
 
+
+function clerRow(event){
+    // event.preventDefault();
+   let newOne= localStorage.getItem('boook');
+   newOne=JSON.parse(newOne);
+   newOne.splice(Number( event.target.id),1);
+   newOne =JSON.stringify(newOne);
+   localStorage.setItem('boook' , newOne);
+   location.reload();
+};
+
+readFromLocalStorage ();
