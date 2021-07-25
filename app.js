@@ -77,7 +77,9 @@ function createTableHeader() {
 let count=0;
 
 book.prototype.render=function(){
+    totalPrice=totalPrice+this.randomPrMS;
     let trEl = document.createElement('tr');
+
     let tdEl = document.createElement('td');
      let aEl = document.createElement('a');
      aEl.innerHTML = `<ion-icon id=${count} name="close-circle-outline"></ion-icon>`;
@@ -169,6 +171,7 @@ function clerRow(event){
    newOne.splice(Number( event.target.id),1);
    newOne =JSON.stringify(newOne);
    localStorage.setItem('boook' , newOne);
+
    location.reload();
 };
 
